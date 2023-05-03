@@ -1,5 +1,4 @@
 import time
-import os
 import zipfile
 
 from selenium import webdriver
@@ -63,7 +62,7 @@ chrome.webRequest.onAuthRequired.addListener(
        proxy_config.password.get_secret_value())
 
 
-def get_chromedriver(headless=False):
+def get_chromedriver_with_proxy(headless=False):
     options = webdriver.ChromeOptions()
     if headless:
         options.add_argument('--headless=new')
@@ -73,4 +72,6 @@ def get_chromedriver(headless=False):
         zp.writestr("background.js", background_js)
     options.add_extension(pluginfile)
     driver = webdriver.Chrome(options=options)
+    driver.get("https://twitter.com/")
+    time.sleep(5)
     return driver

@@ -8,15 +8,10 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from driver_with_proxy import get_chromedriver
-from twitter_acc_config import twitter_acc_config
+from twitter_feed_scrapper.driver import get_chromedriver_with_proxy
+from twitter_feed_scrapper.twitter_acc_config import twitter_acc_config
 
-logger = logging.getLogger('TwitterScrapper')
-format = logging.Formatter(
-    "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-ch = logging.StreamHandler()
-ch.setFormatter(format)
-logger.addHandler(ch)
+logger = logging.getLogger('TwitterFeedScrapper')
 
 USERNAME_OR_EMAIL_FIELD_XPATH = '//body//input[@autocomplete="username"]'
 NEXT_BUTTON_XPATH = '//body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]//div[@role="button"][2]'
@@ -37,24 +32,10 @@ def wait_until_element_appears(driver, xpath: str, field_name: str, raise_if_did
     return driver.find_element(By.XPATH, xpath)
 
 
-def main():
-    driver = get_chromedriver()
-    try:
-        driver.get("https://twitter.com/login")
-        time.sleep(5)
-        driver.get("https://twitter.com/login")
-        if not login(driver):
-            raise Exception('Failed to login')
-        print('OK')
-    except Exception as e:
-        logger.exception(e)
-    finally:
-        driver.close()
-        driver.quit()
-
-
 def login(driver) -> bool:
-    username_field = wait_until_element_appears(driver, USERNAME_OR_EMAIL_FIELD_XPATH, 'Username/email field')
+    driver.get("https://twitter.com/login")
+    username_field = wait_until_element_appears(driver, USERNAME_OR_EMAIL_FIELD_XPATH, 'Username/email field',
+                                                timeout=20)
     if not username_field:
         return False
     username_field.send_keys(twitter_acc_config.user.get_secret_value())
@@ -71,6 +52,23 @@ def login(driver) -> bool:
         return False
     login_button.click()
     return True
+
+
+# For testing
+def main():
+    driver = get_chromedriver_with_proxy(headless=False)
+    try:
+        driver.get("https://twitter.com/login")
+        time.sleep(5)
+        driver.get("https://twitter.com/login")
+        if not login(driver):
+            raise Exception('Failed to login')
+        print('OK')
+    except Exception as e:
+        logger.exception(e)
+    finally:
+        driver.close()
+        driver.quit()
 
 
 if __name__ == '__main__':

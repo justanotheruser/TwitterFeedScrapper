@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 selenium = "*"
 pydantic = {extras = ["dotenv"], version = "*"}
+click = "*"
+click-default-group = "*"
+openpyxl = "*"
+tqdm = "*"
 
 [dev-packages]
 
