@@ -62,16 +62,19 @@ chrome.webRequest.onAuthRequired.addListener(
        proxy_config.password.get_secret_value())
 
 
-def get_chromedriver_with_proxy(headless=False):
+def get_chromedriver(use_proxy=False, headless=False):
     options = webdriver.ChromeOptions()
     if headless:
         options.add_argument('--headless=new')
-    pluginfile = 'proxy_auth_plugin.zip'
-    with zipfile.ZipFile(pluginfile, 'w') as zp:
-        zp.writestr("manifest.json", manifest_json)
-        zp.writestr("background.js", background_js)
-    options.add_extension(pluginfile)
-    driver = webdriver.Chrome(options=options)
-    driver.get("https://twitter.com/")
-    time.sleep(5)
+    if use_proxy:
+        pluginfile = 'proxy_auth_plugin.zip'
+        with zipfile.ZipFile(pluginfile, 'w') as zp:
+            zp.writestr("manifest.json", manifest_json)
+            zp.writestr("background.js", background_js)
+        options.add_extension(pluginfile)
+        driver = webdriver.Chrome(options=options)
+        driver.get("https://twitter.com/")
+        time.sleep(5)
+    else:
+        driver = webdriver.Chrome(options=options)
     return driver

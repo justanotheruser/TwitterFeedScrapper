@@ -7,9 +7,9 @@ import click
 import openpyxl
 from click_default_group import DefaultGroup
 
-from driver import get_chromedriver_with_proxy
+from driver import get_chromedriver
 from mutually_exclusive_option import MutuallyExclusiveOption
-from scrapping.scraper import scrape
+from twitter_feed_scrapper.scrapping.scraper import Scrapper
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
@@ -32,11 +32,12 @@ def main(**kwargs):
     tweeted_after, tweeted_before = get_time_range(kwargs['last_hours'], kwargs['date'], kwargs['from_date'],
                                                    kwargs['to_date'])
     logger.info("Запускаем браузер")
-    driver = get_chromedriver_with_proxy(headless=False)
+    driver = get_chromedriver(use_proxy=True, headless=True)
     logger.info("Собираем твиты")
     data = None
     try:
-        data = scrape(driver, tweeted_after, tweeted_before)
+        scrapper = Scrapper(driver, tweeted_after, tweeted_before)
+        data = scrapper.scrape()
     except Exception as e:
         logger.exception(e)
     finally:
@@ -90,13 +91,12 @@ def write_output(output_file: str, data):
     for i, column_header in enumerate(fields):
         sheet.cell(row=1, column=i + 1).value = column_header
     row_idx = 2
-    for username, user_tweets in tqdm(data.items()):
-        for _, tweet in user_tweets.items():
-            if tweet['is_retweet']:
-                continue
-            for col_idx, value in enumerate(fields):
-                sheet.cell(row=row_idx, column=col_idx + 1).value = tweet[value]
-            row_idx += 1
+    for _, tweet in tqdm(data.items()):
+        if tweet['is_retweet']:
+            continue
+        for col_idx, value in enumerate(fields):
+            sheet.cell(row=row_idx, column=col_idx + 1).value = tweet[value]
+        row_idx += 1
     wb.save(output_file)
 
 
