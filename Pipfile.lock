@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8257352aa54444a7905b8239999de0cda3a2258eee516e7fcec165fa32f29f37"
+            "sha256": "12f7c81b573a7c76112c0d20db7b11f15a8b60db6879855af281e3a9d1920581"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -17,6 +17,13 @@
         ]
     },
     "default": {
+        "altgraph": {
+            "hashes": [
+                "sha256:ad33358114df7c9416cdb8fa1eaa5852166c505118717021c6a8c7c7abbd03dd",
+                "sha256:c8ac1ca6772207179ed8003ce7687757c04b0b71536f81e2ac5755c6226458fe"
+            ],
+            "version": "==0.17.3"
+        },
         "async-generator": {
             "hashes": [
                 "sha256:01c7bf666359b4967d2cda0000cc2e4af16a0ae098cbffcb8472fb9e8ad6585b",
@@ -182,6 +189,14 @@
             "markers": "python_version >= '3.7'",
             "version": "==1.2.0"
         },
+        "pefile": {
+            "hashes": [
+                "sha256:82e6114004b3d6911c77c3953e3838654b04511b8b66e8583db70c65998017dc",
+                "sha256:da185cd2af68c08a6cd4481f7325ed600a88f6a813bad9dea07ab3ef73d8d8d6"
+            ],
+            "markers": "sys_platform == 'win32'",
+            "version": "==2023.2.7"
+        },
         "pycparser": {
             "hashes": [
                 "sha256:8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9",
@@ -234,6 +249,32 @@
             "index": "pypi",
             "version": "==1.10.7"
         },
+        "pyinstaller": {
+            "hashes": [
+                "sha256:247b99c52dc3cf69eba905da30dbca0a8ea309e1058cab44658ac838d9b8f2f0",
+                "sha256:2d16641a495593d174504263b038a6d3d46b3b15a381ccb216cf6cce67723512",
+                "sha256:333b4ffda38d9c0a561c38429dd9848d37aa78f3b8ea8a6f2b2e69a60d523c02",
+                "sha256:6afc7aa4885ffd3e6121a8cf2138830099f874c18cb5869bed8c1a42db82d060",
+                "sha256:6ecc464bf56919bf2d6bff275f38d85ff08ae747b8ead3a0c26cf85573b3c723",
+                "sha256:7a1db833bb0302b66ae3ae337fbd5487699658ce869ca4d538b5359b8179e83a",
+                "sha256:85e39e36d03355423636907a26a9bfa06fdc93cb1086441b19d2d0ca448479fa",
+                "sha256:915a502802c751bafd92d568ac57468ec6cdf252b8308aa9a167bbc2c565ad2d",
+                "sha256:9e9a38f41f8280c8e29b294716992852281b41fbe64ba330ebab671efe27b26d",
+                "sha256:bb7de35cd209a0a0358aec761a273ae951d2161c03728f15d9a640d06a88e472",
+                "sha256:df97aaf1103a1c485aa3c9947792a86675e370f5ce9b436b4a84e34a4180c8d2",
+                "sha256:f677fbc151db1eb00ada94e86ed128e7b359cbd6bf3f6ea815afdde687692d46"
+            ],
+            "index": "pypi",
+            "version": "==5.10.1"
+        },
+        "pyinstaller-hooks-contrib": {
+            "hashes": [
+                "sha256:7fb856a81fd06a717188a3175caa77e902035cc067b00b583c6409c62497b23f",
+                "sha256:e02c5f0ee3d4f5814588c2128caf5036c058ba764aaf24d957bb5311ad8690ad"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==2023.2"
+        },
         "pysocks": {
             "hashes": [
                 "sha256:08e69f092cc6dbe92a0fdd16eeb9b9ffbc13cadfe5ca4c7bd92ffb078b293299",
@@ -249,6 +290,14 @@
             ],
             "version": "==1.0.0"
         },
+        "pywin32-ctypes": {
+            "hashes": [
+                "sha256:24ffc3b341d457d48e8922352130cf2644024a4ff09762a2261fd34c36ee5942",
+                "sha256:9dc2d991b3479cc2df15930958b674a48a227d5361d413827a4cfd0b5876fc98"
+            ],
+            "markers": "sys_platform == 'win32'",
+            "version": "==0.2.0"
+        },
         "selenium": {
             "hashes": [
                 "sha256:478fae77cdfaec32adb1e68d59632c8c191f920535282abcaa2d1a3d98655624",
@@ -256,6 +305,14 @@
             ],
             "index": "pypi",
             "version": "==4.9.0"
+        },
+        "setuptools": {
+            "hashes": [
+                "sha256:23aaf86b85ca52ceb801d32703f12d77517b2556af839621c641fca11287952b",
+                "sha256:f104fa03692a2602fa0fec6c6a9e63b6c8a968de13e17c026957dd1f53d80990"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==67.7.2"
         },
         "sniffio": {
             "hashes": [

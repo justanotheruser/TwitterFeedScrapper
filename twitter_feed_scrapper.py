@@ -9,7 +9,7 @@ from click_default_group import DefaultGroup
 
 from driver import get_chromedriver
 from mutually_exclusive_option import MutuallyExclusiveOption
-from twitter_feed_scrapper.scrapping.scraper import Scrapper
+from scrapping.scraper import Scrapper
 
 logger = logging.getLogger('TwitterFeedScrapper')
 

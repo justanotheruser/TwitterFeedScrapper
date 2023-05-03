@@ -2,9 +2,9 @@ import logging
 from datetime import datetime
 from typing import Optional
 
-from twitter_feed_scrapper.scrapping.driver_utils import Utilities
-from twitter_feed_scrapper.scrapping.element_finder import Finder
-from twitter_feed_scrapper.scrapping.login import login
+from scrapping.driver_utils import Utilities
+from scrapping.element_finder import Finder
+from scrapping.login import login
 
 logger = logging.getLogger('TwitterFeedScrapper')
 

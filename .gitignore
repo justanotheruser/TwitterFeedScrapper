@@ -1,6 +1,9 @@
 .idea/
 __pycache__/
 .proxy_config
-twitter_feed_scrapper/proxy_auth_plugin.zip
+proxy_auth_plugin.zip
 *.log
 *.xlsx
+*.spec
+build/
+dist/
