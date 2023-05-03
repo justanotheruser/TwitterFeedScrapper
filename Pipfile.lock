@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e25cb528e71931865e831b1ce14b9272a568530c6d1665ee7388241c364655a4"
+            "sha256": "356ef8d5895f5a11a88c0af516ae2aa54d92d7396251191ca17c140c7aa5a51e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -151,6 +151,9 @@
             "version": "==2.21"
         },
         "pydantic": {
+            "extras": [
+                "dotenv"
+            ],
             "hashes": [
                 "sha256:01aea3a42c13f2602b7ecbbea484a98169fb568ebd9e247593ea05f01b884b2e",
                 "sha256:0cd181f1d0b1d00e2b705f1bf1ac7799a2d938cce3376b8007df62b29be3c2c6",
@@ -199,6 +202,13 @@
                 "sha256:3f8804571ebe159c380ac6de37643bb4685970655d3bba243530d6558b799aa0"
             ],
             "version": "==1.7.1"
+        },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:a8df96034aae6d2d50a4ebe8216326c61c3eb64836776504fcca410e5937a3ba",
+                "sha256:f5971a9226b701070a4bf2c38c89e5a3f0d64de8debda981d1db98583009122a"
+            ],
+            "version": "==1.0.0"
         },
         "selenium": {
             "hashes": [
