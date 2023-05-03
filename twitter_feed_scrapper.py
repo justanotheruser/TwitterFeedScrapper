@@ -1,11 +1,12 @@
 import logging
 import os.path
-from tqdm import tqdm
+import sys
 from datetime import datetime, timedelta
 
 import click
 import openpyxl
 from click_default_group import DefaultGroup
+from tqdm import tqdm
 
 from driver import get_chromedriver
 from mutually_exclusive_option import MutuallyExclusiveOption
@@ -19,6 +20,15 @@ def cli():
     pass
 
 
+def manual_login():
+    logger.setLevel(logging.INFO)
+    setup_file_logger(logger)
+    setup_console_logger(logger)
+    driver = get_chromedriver(use_proxy=False, headless=False)
+    driver.get('https://twitter.com/login')
+    input()
+
+
 @cli.command()
 @click.option("-o", "--output", required=True)
 @click.option("--last-hours", cls=MutuallyExclusiveOption, mutually_exclusive=['date', 'from-date', 'to-date'])
@@ -29,10 +39,13 @@ def main(**kwargs):
     logger.setLevel(logging.INFO)
     setup_file_logger(logger)
     setup_console_logger(logger)
+    if kwargs['manual_login']:
+        manual_login()
+        return
     tweeted_after, tweeted_before = get_time_range(kwargs['last_hours'], kwargs['date'], kwargs['from_date'],
                                                    kwargs['to_date'])
     logger.info("Запускаем браузер")
-    driver = get_chromedriver(use_proxy=True, headless=True)
+    driver = get_chromedriver(use_proxy=False, headless=True)
     logger.info("Собираем твиты")
     data = None
     try:
@@ -117,4 +130,7 @@ def setup_console_logger(logger):
 
 
 if __name__ == '__main__':
-    main()
+    if sys.argv[1] == 'manual_login':
+        manual_login()
+    else:
+        main()
