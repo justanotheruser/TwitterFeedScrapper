@@ -6,6 +6,7 @@ import click
 from twitter_feed_scrapper.commands.manual_login import manual_login_command
 from twitter_feed_scrapper.commands.scrape import scrape_command
 from twitter_feed_scrapper.mutually_exclusive_option import MutuallyExclusiveOption
+from twitter_feed_scrapper.commands.follow import follow_command
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
@@ -33,6 +34,15 @@ def manual_login(**kwargs):
 def scrape(**kwargs):
     scrape_command(kwargs['config'], kwargs['output'], kwargs['last_hours'], kwargs['date'], kwargs['from_date'],
                    kwargs['to_date'], kwargs['headless'], kwargs['use_proxy'])
+
+
+@cli.command()
+@click.option("-c", "--config", default=os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.ini'))
+@click.option("-u", "--users", required=True)
+@click.option('--headless', is_flag=True, default=False)
+@click.option('--use-proxy', is_flag=True, default=False)
+def follow(**kwargs):
+    follow_command(kwargs['config'], kwargs['users'], kwargs['headless'], kwargs['use_proxy'])
 
 
 def setup_file_logger():

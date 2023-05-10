@@ -1,9 +1,9 @@
 import logging
 import time
 
-from twitter_feed_scrapper.driver import get_chromedriver
-from twitter_feed_scrapper.scrapping.driver_utils import Utilities
 from twitter_feed_scrapper.config import Credentials
+from twitter_feed_scrapper.driver import get_chromedriver
+from twitter_feed_scrapper.web.driver_utils import Utilities
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
@@ -14,6 +14,7 @@ LOGIN_BUTTON_XPATH = '//body/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/di
 
 
 def login(driver, creds: Credentials) -> bool:
+    logger.info(f"Логинимся как {creds.user}")
     driver.get("https://twitter.com/login")
     username_field = Utilities.wait_until_element_appears(driver, USERNAME_OR_EMAIL_FIELD_XPATH,
                                                           'Username/email field', timeout=20)

@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 from twitter_feed_scrapper.config import read_config
 from twitter_feed_scrapper.driver import get_chromedriver
-from twitter_feed_scrapper.scrapping.scraper import Scrapper
+from twitter_feed_scrapper.web.scraper import Scrapper
 
 logger = logging.getLogger('TwitterFeedScrapper')
 

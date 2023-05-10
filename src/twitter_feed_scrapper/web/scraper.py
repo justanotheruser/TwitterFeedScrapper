@@ -4,9 +4,9 @@ from typing import Optional
 
 from selenium.common.exceptions import StaleElementReferenceException
 
-from twitter_feed_scrapper.scrapping.driver_utils import Utilities
-from twitter_feed_scrapper.scrapping.element_finder import Finder
-from twitter_feed_scrapper.scrapping.login import login
+from twitter_feed_scrapper.web.driver_utils import Utilities
+from twitter_feed_scrapper.web.element_finder import Finder
+from twitter_feed_scrapper.web.login import login
 from twitter_feed_scrapper.config import Config
 
 logger = logging.getLogger('TwitterFeedScrapper')
