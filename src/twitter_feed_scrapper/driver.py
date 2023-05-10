@@ -3,7 +3,7 @@ import zipfile
 
 from selenium import webdriver
 
-from proxy_config import proxy_config
+from twitter_feed_scrapper.proxy_config import proxy_config
 
 manifest_json = """
 {

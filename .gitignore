@@ -1,6 +1,7 @@
 .idea/
 __pycache__/
-src/twitter_feed_srapper/.proxy_config
+src/twitter_feed_scrapper/.proxy_config
+src/twitter_feed_scrapper.egg-info/
 proxy_auth_plugin.zip
 *.log
 *.xlsx

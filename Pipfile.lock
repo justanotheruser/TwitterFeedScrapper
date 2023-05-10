@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6acf45c7d99748ca034f3e1ca775bb2c1862330273fa45d7c0d9df0975ba1ab2"
+            "sha256": "18dc0e823feb7a42edcc7acb80f0703e034251989fca554ec0b5d5b801671492"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -350,6 +350,10 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==0.10.2"
+        },
+        "twitter-feed-scrapper": {
+            "editable": true,
+            "path": "."
         },
         "typing-extensions": {
             "hashes": [

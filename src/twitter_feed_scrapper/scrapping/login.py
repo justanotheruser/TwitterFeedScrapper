@@ -1,9 +1,9 @@
 import logging
 import time
 
-from twitter_feed_srapper.driver import get_chromedriver
-from twitter_feed_srapper.scrapping.driver_utils import Utilities
-from twitter_feed_srapper.config import Credentials
+from twitter_feed_scrapper.driver import get_chromedriver
+from twitter_feed_scrapper.scrapping.driver_utils import Utilities
+from twitter_feed_scrapper.config import Credentials
 
 logger = logging.getLogger('TwitterFeedScrapper')
 

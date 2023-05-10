@@ -1,0 +1,11 @@
+[project]
+name = "twitter_feed_scrapper"
+version = "0.1"
+description = "Scrapes Twitter feed"
+
+[build-system]
+requires = ["setuptools >= 61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tools.setuptools.packages.find]
+where = ["src"]

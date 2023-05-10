@@ -12,6 +12,7 @@ tqdm = "*"
 pyinstaller = "*"
 pydantic = "*"
 configparser = "*"
+twitter-feed-scrapper = {editable = true, path = "."}
 
 [dev-packages]
 
