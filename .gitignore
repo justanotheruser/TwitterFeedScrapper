@@ -8,3 +8,4 @@ proxy_auth_plugin.zip
 *.spec
 build/
 dist/
+*.ini

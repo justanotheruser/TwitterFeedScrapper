@@ -5,12 +5,13 @@ name = "pypi"
 
 [packages]
 selenium = "*"
-pydantic = {extras = ["dotenv"], version = "*"}
 click = "*"
 click-default-group = "*"
 openpyxl = "*"
 tqdm = "*"
 pyinstaller = "*"
+pydantic = "*"
+configparser = "*"
 
 [dev-packages]
 
