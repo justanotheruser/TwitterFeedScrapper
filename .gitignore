@@ -1,6 +1,7 @@
 .idea/
 __pycache__/
 .proxy_config
+.twitter_acc_config
 proxy_auth_plugin.zip
 *.log
 *.xlsx
