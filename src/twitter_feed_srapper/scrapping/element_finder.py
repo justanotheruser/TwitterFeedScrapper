@@ -5,8 +5,8 @@ from datetime import datetime
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
-from scrapping.driver_utils import Utilities
-from scrapping.scraping_utilities import ScrapingUtilities
+from twitter_feed_srapper.scrapping.driver_utils import Utilities
+from twitter_feed_srapper.scrapping.scraping_utilities import ScrapingUtilities
 
 logger = logging.getLogger('TwitterFeedScrapper')
 

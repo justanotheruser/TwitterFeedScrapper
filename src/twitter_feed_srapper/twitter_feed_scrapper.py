@@ -11,6 +11,7 @@ from tqdm import tqdm
 from driver import get_chromedriver
 from mutually_exclusive_option import MutuallyExclusiveOption
 from scrapping.scraper import Scrapper
+from config import read_config
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
@@ -30,6 +31,7 @@ def manual_login():
 
 
 @cli.command()
+@click.option("-c", "--config", default=os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.ini'))
 @click.option("-o", "--output", required=True)
 @click.option("--last-hours", cls=MutuallyExclusiveOption, mutually_exclusive=['date', 'from-date', 'to-date'])
 @click.option("--date", cls=MutuallyExclusiveOption, mutually_exclusive=['last-hours', 'from-date', 'to-date'])
@@ -41,6 +43,10 @@ def main(**kwargs):
     logger.setLevel(logging.INFO)
     setup_file_logger(logger)
     setup_console_logger(logger)
+
+    if not (config := read_config(kwargs['config'])):
+        return
+
     tweeted_after, tweeted_before = get_time_range(kwargs['last_hours'], kwargs['date'], kwargs['from_date'],
                                                    kwargs['to_date'])
     logger.info("Запускаем браузер")
@@ -48,7 +54,7 @@ def main(**kwargs):
     logger.info("Собираем твиты")
     data = None
     try:
-        scrapper = Scrapper(driver, tweeted_after, tweeted_before)
+        scrapper = Scrapper(driver, config, tweeted_after, tweeted_before)
         data = scrapper.scrape()
     except Exception as e:
         logger.exception(e)

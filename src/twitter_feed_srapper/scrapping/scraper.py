@@ -4,9 +4,10 @@ from typing import Optional
 
 from selenium.common.exceptions import StaleElementReferenceException
 
-from scrapping.driver_utils import Utilities
-from scrapping.element_finder import Finder
-from scrapping.login import login
+from twitter_feed_srapper.scrapping.driver_utils import Utilities
+from twitter_feed_srapper.scrapping.element_finder import Finder
+from twitter_feed_srapper.scrapping.login import login
+from twitter_feed_srapper.config import Config
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
@@ -15,15 +16,16 @@ FOLLOWING_XPATH = '//body//div[@aria-label="Home timeline"]//span[text()="Follow
 
 
 class Scrapper:
-    def __init__(self, driver, tweeted_after: datetime, tweeted_before: Optional[datetime]):
+    def __init__(self, driver, config: Config, tweeted_after: datetime, tweeted_before: Optional[datetime]):
         self.driver = driver
+        self.config = config
         self.tweeted_before = tweeted_before
         self.tweeted_after = tweeted_after
         self.posts_data = {}
         self.retry = 10
 
     def scrape(self):
-        if not login(self.driver):
+        if not login(self.driver, self.config.credentials[0]):
             logger.error('Failed to login')
             return None
         Utilities.wait_until_completion(self.driver)

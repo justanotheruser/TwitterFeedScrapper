@@ -1,9 +1,9 @@
 import logging
 import time
 
-from driver import get_chromedriver
-from scrapping.driver_utils import Utilities
-from twitter_acc_config import twitter_acc_config
+from twitter_feed_srapper.driver import get_chromedriver
+from twitter_feed_srapper.scrapping.driver_utils import Utilities
+from twitter_feed_srapper.config import Credentials
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
@@ -13,13 +13,13 @@ PASSWORD_FIELD_XPATH = '//body//input[@name="password"]'
 LOGIN_BUTTON_XPATH = '//body/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]'
 
 
-def login(driver) -> bool:
+def login(driver, creds: Credentials) -> bool:
     driver.get("https://twitter.com/login")
     username_field = Utilities.wait_until_element_appears(driver, USERNAME_OR_EMAIL_FIELD_XPATH,
                                                           'Username/email field', timeout=20)
     if not username_field:
         return False
-    username_field.send_keys(twitter_acc_config.user.get_secret_value())
+    username_field.send_keys(creds.user)
     next_button = Utilities.wait_until_element_appears(driver, NEXT_BUTTON_XPATH, "'Next' button")
     if not next_button:
         return False
@@ -27,7 +27,7 @@ def login(driver) -> bool:
     password_field = Utilities.wait_until_element_appears(driver, PASSWORD_FIELD_XPATH, 'Password field')
     if not password_field:
         return False
-    password_field.send_keys(twitter_acc_config.password.get_secret_value())
+    password_field.send_keys(creds.password)
     login_button = Utilities.wait_until_element_appears(driver, LOGIN_BUTTON_XPATH, "'Login' button")
     if not login_button:
         return False
