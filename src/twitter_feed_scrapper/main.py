@@ -3,10 +3,10 @@ import os.path
 
 import click
 
+from twitter_feed_scrapper.commands.follow import follow_command
 from twitter_feed_scrapper.commands.manual_login import manual_login_command
 from twitter_feed_scrapper.commands.scrape import scrape_command
 from twitter_feed_scrapper.mutually_exclusive_option import MutuallyExclusiveOption
-from twitter_feed_scrapper.commands.follow import follow_command
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
@@ -60,7 +60,7 @@ def setup_console_logger():
     logger.addHandler(ch)
 
 
-if __name__ == '__main__':
+def main():
     logger.setLevel(logging.INFO)
     setup_file_logger()
     setup_console_logger()
@@ -68,3 +68,7 @@ if __name__ == '__main__':
     cli.add_command(manual_login)
     cli.add_command(scrape)
     cli()
+
+
+if __name__ == '__main__':
+    main()
