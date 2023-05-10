@@ -35,17 +35,16 @@ def manual_login():
 @click.option("--date", cls=MutuallyExclusiveOption, mutually_exclusive=['last-hours', 'from-date', 'to-date'])
 @click.option("--from-date", cls=MutuallyExclusiveOption, mutually_exclusive=['last-hours', 'date'])
 @click.option("--to-date", cls=MutuallyExclusiveOption, mutually_exclusive=['last-hours', 'date'])
+@click.option('--headless', is_flag=True, default=False)
+@click.option('--use-proxy', is_flag=True, default=False)
 def main(**kwargs):
     logger.setLevel(logging.INFO)
     setup_file_logger(logger)
     setup_console_logger(logger)
-    if kwargs['manual_login']:
-        manual_login()
-        return
     tweeted_after, tweeted_before = get_time_range(kwargs['last_hours'], kwargs['date'], kwargs['from_date'],
                                                    kwargs['to_date'])
     logger.info("Запускаем браузер")
-    driver = get_chromedriver(use_proxy=False, headless=True)
+    driver = get_chromedriver(use_proxy=kwargs['use_proxy'], headless=kwargs['headless'])
     logger.info("Собираем твиты")
     data = None
     try:

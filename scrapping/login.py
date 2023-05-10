@@ -11,7 +11,6 @@ USERNAME_OR_EMAIL_FIELD_XPATH = '//body//input[@autocomplete="username"]'
 NEXT_BUTTON_XPATH = '//body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]//div[@role="button"][2]'
 PASSWORD_FIELD_XPATH = '//body//input[@name="password"]'
 LOGIN_BUTTON_XPATH = '//body/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]'
-BOOST_ACCOUNT_SECURITY_CLOSE_BUTTON_XPATH = '//body//div[@aria-label="Close"]'
 
 
 def login(driver) -> bool:

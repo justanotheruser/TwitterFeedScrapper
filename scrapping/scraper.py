@@ -8,6 +8,7 @@ from scrapping.login import login
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
+BOOST_ACCOUNT_SECURITY_CLOSE_BUTTON_XPATH = '//body//div[@aria-label="Close"]'
 FOLLOWING_XPATH = '//body//div[@aria-label="Home timeline"]//span[text()="Following"]'
 
 
@@ -24,6 +25,10 @@ class Scrapper:
             logger.error('Failed to login')
             return None
         Utilities.wait_until_completion(self.driver)
+        boost_account_security_close_button = Utilities.wait_until_element_appears(
+            self.driver, BOOST_ACCOUNT_SECURITY_CLOSE_BUTTON_XPATH, '', raise_if_didnt=False, timeout=2)
+        if boost_account_security_close_button:
+            boost_account_security_close_button.click()
         following_tab = Utilities.wait_until_element_appears(self.driver, FOLLOWING_XPATH, "'Following' tab")
         if not following_tab:
             return None
