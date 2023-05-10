@@ -29,10 +29,12 @@ def login(driver, creds: Credentials) -> bool:
     if not password_field:
         return False
     password_field.send_keys(creds.password)
+    Utilities.wait_until_completion(driver)
     login_button = Utilities.wait_until_element_appears(driver, LOGIN_BUTTON_XPATH, "'Login' button")
     if not login_button:
         return False
     login_button.click()
+    Utilities.wait_until_completion(driver)
     return True
 
 

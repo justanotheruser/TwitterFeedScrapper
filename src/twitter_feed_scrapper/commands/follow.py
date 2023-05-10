@@ -1,41 +1,50 @@
+import logging
 import math
+from typing import Optional
 
 import tqdm
 
-FOLLOW_BUTTON_XPATH = '//body//main//div[@aria-label="Home timeline"]//div[@data-testid="placementTracking"]//span[' \
-                      'text()="Follow"]'
-import logging
-from typing import Optional
-
 from twitter_feed_scrapper.config import read_config, Credentials
 from twitter_feed_scrapper.driver import get_chromedriver
-from twitter_feed_scrapper.web.login import login
 from twitter_feed_scrapper.web.follow import follow
+from twitter_feed_scrapper.web.login import login
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
 
-def follow_command(config_path: str, users_file: str, headless: bool, use_proxy: bool):
+def follow_command(config_path: str, users_file: str, output_file: str, headless: bool, use_proxy: bool):
     if not (config := read_config(config_path)):
         return
     if (users2follow := read_users(users_file)) is None:
         return
-    # TODO: write users_above_limit to a file
     users2follow, users_above_limit = chunk(users2follow, len(config.credentials),
                                             max_per_account=config.follow.max_per_account)
     logger.info(f"Chunks: {users2follow}")
-    for i in range(len(config.credentials)):
-        follow_from_account(creds=config.credentials[i], users2follow=users2follow[i], use_proxy=use_proxy,
-                            headless=headless)
+    following, not_following = [], []
+    for i in tqdm.tqdm(range(len(config.credentials))):
+        following_i, failed_i = follow_from_account(creds=config.credentials[i], users2follow=users2follow[i],
+                                                    use_proxy=use_proxy, headless=headless)
+        following.extend(following_i)
+        not_following.extend(failed_i)
+    not_following.extend(users_above_limit)
+    write_output(output_file, not_following)
 
 
-def follow_from_account(creds: Credentials, users2follow: list[str], use_proxy: bool, headless: bool):
+def follow_from_account(creds: Credentials, users2follow: list[str], use_proxy: bool, headless: bool) -> (
+        list[str], list[str]):
     logger.info("Запускаем браузер")
     driver = get_chromedriver(use_proxy=use_proxy, headless=headless)
     login(driver, creds)
     logger.info("Подписываемся на аккаунты")
+    following, failed = [], []
     for user in tqdm.tqdm(users2follow):
-        follow(driver, user)
+        if follow(driver, user):
+            following.append(user)
+        else:
+            failed.append(user)
+    driver.close()
+    driver.quit()
+    return following, failed
 
 
 def read_users(input_file: str) -> Optional[list[str]]:
@@ -63,3 +72,9 @@ def chunk(user2follow: list[str], n_accounts: int, max_per_account: int):
         users_we_can_follow = users_we_can_follow[real_chunk_size:]
     assert len(chunked_users) == n_accounts
     return chunked_users, users_above_limit
+
+
+def write_output(file: str, not_following_users: list[str]):
+    with open(file, mode='w', encoding='utf-8') as f:
+        for user in not_following_users:
+            f.write(user + '\n')

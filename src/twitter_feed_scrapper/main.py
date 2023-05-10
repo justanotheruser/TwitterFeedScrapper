@@ -38,11 +38,12 @@ def scrape(**kwargs):
 
 @cli.command()
 @click.option("-c", "--config", default=os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.ini'))
-@click.option("-u", "--users", required=True)
+@click.option("-u", "--users", required=True, help="Users we need to follow")
+@click.option("-o", "--output", required=True, help="User we are still not following")
 @click.option('--headless', is_flag=True, default=False)
 @click.option('--use-proxy', is_flag=True, default=False)
 def follow(**kwargs):
-    follow_command(kwargs['config'], kwargs['users'], kwargs['headless'], kwargs['use_proxy'])
+    follow_command(kwargs['config'], kwargs['users'], kwargs['output'], kwargs['headless'], kwargs['use_proxy'])
 
 
 def setup_file_logger():
