@@ -9,6 +9,7 @@ from tqdm import tqdm
 from twitter_feed_scrapper.config import read_config
 from twitter_feed_scrapper.driver import get_chromedriver
 from twitter_feed_scrapper.web.scraper import Scrapper
+from twitter_feed_scrapper.config import Credentials
 
 logger = logging.getLogger('TwitterFeedScrapper')
 
@@ -18,22 +19,30 @@ def scrape_command(config_path: str, output_path: str, last_hours: Optional[str]
     if not (config := read_config(config_path)):
         return
     tweeted_after, tweeted_before = get_time_range(last_hours, single_date, from_date, to_date)
+    data = {}
+    for credentials in tqdm(config.credentials):
+        account_data = scrape_from_account(credentials, headless, use_proxy, tweeted_after, tweeted_before)
+        data.update(account_data)
+    if data:
+        logger.info("Записываем результат")
+        write_output(output_path, data)
+
+
+def scrape_from_account(credentials: Credentials, headless: bool, use_proxy: bool, tweeted_after: datetime | None,
+                        tweeted_before: datetime | None):
     logger.info("Запускаем браузер")
     driver = get_chromedriver(use_proxy=use_proxy, headless=headless)
     logger.info("Собираем твиты")
-    data = None
+    data = {}
     try:
-        scrapper = Scrapper(driver, config, tweeted_after, tweeted_before)
+        scrapper = Scrapper(driver, credentials, tweeted_after, tweeted_before)
         data = scrapper.scrape()
     except Exception as e:
         logger.exception(e)
     finally:
         driver.close()
         driver.quit()
-    if data:
-        logger.info("Записываем результат")
-        write_output(output_path, data)
-
+        return data
 
 def get_time_range(last_hours, single_date, from_date, to_date) -> tuple[datetime | None, datetime | None]:
     tweeted_before = None

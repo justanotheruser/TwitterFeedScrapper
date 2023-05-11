@@ -27,7 +27,8 @@ def follow_command(config_path: str, users_file: str, output_file: str, headless
                                                                   use_proxy=use_proxy, headless=headless)
         following.extend(following_i)
         logger.info(f"Подписались на {len(following_i)} аккаунтов")
-        logger.info(f"Аккаунты {non_existing_i} не существуют")
+        if non_existing_i:
+            logger.info(f"Аккаунты {non_existing_i} не существуют")
         not_following.extend(failed_i)
     if users_above_limit:
         not_following.extend(users_above_limit)
@@ -35,10 +36,13 @@ def follow_command(config_path: str, users_file: str, output_file: str, headless
 
 
 def follow_from_account(creds: Credentials, users2follow: list[str], use_proxy: bool, headless: bool) -> (
-        list[str], list[str]):
+        list[str], list[str], list[str]):
     logger.info("Запускаем браузер")
     driver = get_chromedriver(use_proxy=use_proxy, headless=headless)
-    login(driver, creds)
+    if not login(driver, creds):
+        driver.close()
+        driver.quit()
+        return [], users2follow, []
     logger.info("Подписываемся на аккаунты")
     following, failed, non_existing = [], [], []
     for user in tqdm.tqdm(users2follow):
