@@ -22,11 +22,15 @@ def follow_command(config_path: str, users_file: str, output_file: str, headless
     logger.info(f"Chunks: {users2follow}")
     following, not_following = [], []
     for i in tqdm.tqdm(range(len(config.credentials))):
-        following_i, failed_i = follow_from_account(creds=config.credentials[i], users2follow=users2follow[i],
-                                                    use_proxy=use_proxy, headless=headless)
+        following_i, failed_i, non_existing_i = follow_from_account(creds=config.credentials[i],
+                                                                  users2follow=users2follow[i],
+                                                                  use_proxy=use_proxy, headless=headless)
         following.extend(following_i)
+        logger.info(f"Подписались на {len(following_i)} аккаунтов")
+        logger.info(f"Аккаунты {non_existing_i} не существуют")
         not_following.extend(failed_i)
-    not_following.extend(users_above_limit)
+    if users_above_limit:
+        not_following.extend(users_above_limit)
     write_output(output_file, not_following)
 
 
@@ -36,15 +40,17 @@ def follow_from_account(creds: Credentials, users2follow: list[str], use_proxy: 
     driver = get_chromedriver(use_proxy=use_proxy, headless=headless)
     login(driver, creds)
     logger.info("Подписываемся на аккаунты")
-    following, failed = [], []
+    following, failed, non_existing = [], [], []
     for user in tqdm.tqdm(users2follow):
-        if follow(driver, user):
+        if result := follow(driver, user):
             following.append(user)
-        else:
+        elif result is False:
             failed.append(user)
+        else:
+            non_existing.append(user)
     driver.close()
     driver.quit()
-    return following, failed
+    return following, failed, non_existing
 
 
 def read_users(input_file: str) -> Optional[list[str]]:
@@ -60,7 +66,7 @@ def read_users(input_file: str) -> Optional[list[str]]:
 
 def chunk(user2follow: list[str], n_accounts: int, max_per_account: int):
     max_total = n_accounts * max_per_account
-    if max_total > len(user2follow):
+    if max_total < len(user2follow):
         users_we_can_follow, users_above_limit = user2follow[:max_total], user2follow[max_total:]
     else:
         users_we_can_follow, users_above_limit = user2follow, None
