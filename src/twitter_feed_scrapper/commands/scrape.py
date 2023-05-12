@@ -21,8 +21,11 @@ def scrape_command(config_path: str, output_path: str, last_hours: Optional[str]
     tweeted_after, tweeted_before = get_time_range(last_hours, single_date, from_date, to_date)
     data = {}
     for credentials in tqdm(config.credentials):
-        account_data = scrape_from_account(credentials, headless, use_proxy, tweeted_after, tweeted_before)
-        data.update(account_data)
+        try:
+            account_data = scrape_from_account(credentials, headless, use_proxy, tweeted_after, tweeted_before)
+            data.update(account_data)
+        except Exception as e:
+            logger.exception(e)
     if data:
         logger.info("Записываем результат")
         write_output(output_path, data)
